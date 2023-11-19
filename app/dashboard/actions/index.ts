@@ -1,16 +1,21 @@
 "use server";
 
 import createSupabaseServerClient from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
 
-export async function readTodo() {
-   const supabse = await createSupabaseServerClient();
-   return await supabse.from("todo-demo").select("*");
+import { unstable_noStore as noStore, revalidatePath } from "next/cache";
+
+export async function readDays() {
+   noStore();
+   const supabase = await createSupabaseServerClient();
+   return await supabase.from("day").select(`
+     *,
+     mood ( * )
+   `);
 }
 
-export async function createTodo(title: string) {
+export async function createTodo(description: string) {
    const supabse = await createSupabaseServerClient();
-   const result = await supabse.from("todo-demo").insert({ title }).single();
+   const result = await supabse.from("day").insert({ description }).single();
    revalidatePath("/dashboard");
    return JSON.stringify(result);
 }
