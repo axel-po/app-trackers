@@ -3,7 +3,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-// import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
+import {
+   Select,
+   SelectContent,
+   SelectItem,
+   SelectTrigger,
+   SelectValue,
+} from "@/components/ui/select";
 
 import {
    Form,
@@ -18,33 +26,49 @@ import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
 import { cn } from "@/lib/utils";
-import { createTodo } from "../actions";
+import { createDays } from "../actions";
+import { log } from "console";
+import { LucideBarChartHorizontalBig } from "lucide-react";
 
+interface Mood {
+   id: number;
+   emoji: string;
+   name: string;
+}
+interface FormCreateProps {
+   mood: Mood[];
+}
 const FormSchema = z.object({
-   title: z.string().min(1, {
-      message: "Missing title",
+   description: z.string().min(1, {
+      message: "Missing description",
+   }),
+   moodId: z.string({
+      required_error: "Mood ID is required",
    }),
 });
 
-export default function FormCreate() {
+export default function FormCreate({ mood }: FormCreateProps) {
    const [isPending, startTransition] = useTransition();
 
    const form = useForm<z.infer<typeof FormSchema>>({
       resolver: zodResolver(FormSchema),
       defaultValues: {
-         title: "",
+         description: "",
+         moodId: "1",
       },
    });
 
    function onSubmit(data: z.infer<typeof FormSchema>) {
       startTransition(async () => {
-         const result = await createTodo(data.title);
-         const { error, data: todo } = JSON.parse(result);
+         const result = await createDays(data.description, data.moodId);
+         const { error } = JSON.parse(result);
+
+         console.log("DATA", data);
 
          if (error?.message) {
             toast({
                variant: "destructive",
-               title: "Fail to create todo",
+               title: "Fail to create day",
                description: (
                   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
                      <code className="text-white">{error.message}</code>
@@ -56,7 +80,9 @@ export default function FormCreate() {
                title: "You are successfully create todo.",
                description: (
                   <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                     <code className="text-white">{data.title} is created</code>
+                     <code className="text-white">
+                        {data.description} is created
+                     </code>
                   </pre>
                ),
             });
@@ -73,10 +99,40 @@ export default function FormCreate() {
          >
             <FormField
                control={form.control}
-               name="title"
+               name="moodId"
                render={({ field }) => (
                   <FormItem>
-                     <FormLabel>Title</FormLabel>
+                     <FormLabel>Mood</FormLabel>
+                     <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                     >
+                        <SelectTrigger className="w-[180px]">
+                           <SelectValue placeholder="Mood" />
+                        </SelectTrigger>
+                        <SelectContent>
+                           {mood.map((mood) => (
+                              <SelectItem
+                                 onChange={field.onChange}
+                                 key={mood.id}
+                                 value={`${mood.id}`}
+                              >
+                                 {mood.emoji}
+                              </SelectItem>
+                           ))}
+                        </SelectContent>
+                     </Select>
+                     <FormMessage />
+                  </FormItem>
+               )}
+            />
+
+            <FormField
+               control={form.control}
+               name="description"
+               render={({ field }) => (
+                  <FormItem>
+                     <FormLabel>Description</FormLabel>
                      <FormControl>
                         <Input
                            placeholder="todo title"
@@ -90,10 +146,10 @@ export default function FormCreate() {
             />
 
             <Button type="submit" className="w-full flex gap-2">
-               Create
-               {/* <AiOutlineLoading3Quarters
-						className={cn(" animate-spin", { hidden: !isPending })}
-					/> */}
+               Add
+               <AiOutlineLoading3Quarters
+                  className={cn(" animate-spin", { hidden: !isPending })}
+               />
             </Button>
          </form>
       </Form>
