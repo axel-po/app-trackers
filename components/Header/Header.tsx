@@ -9,7 +9,7 @@ const Header = async () => {
    const { data } = await readUserSession();
 
    return (
-      <nav className="fixed top-0 border-b border-b-accent bg-background w-full">
+      <nav className="fixed top-0 border-b border-b-accent bg-background w-full z-10 bg-white">
          <div className="flex items-center justify-between px-4 py-3">
             <Link href="/">
                <h1 className="font-bold text-2xl">App trackers.</h1>

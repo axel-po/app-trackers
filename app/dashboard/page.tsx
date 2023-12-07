@@ -1,34 +1,35 @@
 import readUserSession from "@/lib/actions";
 import { redirect } from "next/navigation";
 import React from "react";
-import { readTodo } from "./actions";
+import { readDays, readMood } from "./actions";
 import FormCreate from "./components/FormCreate";
+import TableViews from "./components/TableViews";
+import Chart from "./components/Chart";
+import Example from "./components/Chart";
 
 const DashboardPage = async () => {
    const { data } = await readUserSession();
 
-   const { data: todos } = await readTodo();
+   const { data: days } = await readDays();
+
+   const { data: mood } = await readMood();
 
    if (!data.session) {
       return redirect("/auth");
    }
 
-   console.log(todos);
    return (
       <div>
-         <h1 className="font-bold text-3xl">DashboardPage</h1>
-
          <div className="my-12">
-            {todos &&
-               todos.map((todo) => (
-                  <div key={todo.id}>
-                     <h3>{todo.title}</h3>
-                     <p>{todo.completed}</p>
-                  </div>
-               ))}
+            {days && mood && <TableViews days={days} />}
          </div>
 
-         <FormCreate />
+         <div className="flex flex-col gap-y-8">
+            <h1 className="text-4xl font-bold">Analyse : </h1>
+            <Chart />
+         </div>
+
+         <div className="py-20">{mood && <FormCreate mood={mood} />}</div>
       </div>
    );
 };
