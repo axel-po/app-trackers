@@ -63,8 +63,6 @@ export default function FormCreate({ mood }: FormCreateProps) {
          const result = await createDays(data.description, data.moodId);
          const { error } = JSON.parse(result);
 
-         console.log("DATA", data);
-
          if (error?.message) {
             toast({
                variant: "destructive",

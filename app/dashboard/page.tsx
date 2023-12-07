@@ -4,6 +4,8 @@ import React from "react";
 import { readDays, readMood } from "./actions";
 import FormCreate from "./components/FormCreate";
 import TableViews from "./components/TableViews";
+import Chart from "./components/Chart";
+import Example from "./components/Chart";
 
 const DashboardPage = async () => {
    const { data } = await readUserSession();
@@ -18,13 +20,16 @@ const DashboardPage = async () => {
 
    return (
       <div>
-         <h1 className="font-bold text-3xl">DashboardPage</h1>
-
          <div className="my-12">
             {days && mood && <TableViews days={days} />}
          </div>
 
-         <div className="mt-[100px]">{mood && <FormCreate mood={mood} />}</div>
+         <div className="flex flex-col gap-y-8">
+            <h1 className="text-4xl font-bold">Analyse : </h1>
+            <Chart />
+         </div>
+
+         <div className="py-20">{mood && <FormCreate mood={mood} />}</div>
       </div>
    );
 };
