@@ -22,12 +22,12 @@ const TableViews = ({ days }: TableViewsProps) => {
             <TableRow>
                <TableHead className="w-[100px]">Mood</TableHead>
                <TableHead>Description</TableHead>
-               <TableHead>Date</TableHead>
-               <TableHead className="text-center w-[100px]">
+               <TableHead className="w-[200px]">Date</TableHead>
+               <TableHead className="txt-center w-[100px]">
                   Journée productive
                </TableHead>
-               <TableHead className="text-center w-[100px]">Sport</TableHead>
-               <TableHead className="text-center w-[100px]">Social</TableHead>
+               <TableHead className=" w-[100px]">Sport</TableHead>
+               <TableHead className=" w-[100px]">Social</TableHead>
             </TableRow>
          </TableHeader>
          <TableBody>

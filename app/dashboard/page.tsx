@@ -6,6 +6,7 @@ import FormCreate from "./components/FormCreate";
 import TableViews from "./components/TableViews";
 import Chart from "./components/Chart";
 import Example from "./components/Chart";
+import PieChartComponent from "./components/PieChartComponent";
 
 const DashboardPage = async () => {
    const { data } = await readUserSession();
@@ -26,7 +27,10 @@ const DashboardPage = async () => {
 
          <div className="flex flex-col gap-y-8">
             <h1 className="text-4xl font-bold">Analyse : </h1>
-            <Chart />
+            <div className="flex">
+               <Chart />
+               <PieChartComponent />
+            </div>
          </div>
 
          <div className="py-20">{mood && <FormCreate mood={mood} />}</div>

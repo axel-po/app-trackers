@@ -92,17 +92,7 @@ export default function Chart() {
    ];
 
    return (
-      <LineChart
-         width={662}
-         height={313}
-         data={data}
-         margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-         }}
-      >
+      <LineChart width={662} height={313} data={data}>
          <CartesianGrid strokeDasharray="3 3" />
          <XAxis dataKey="name" />
          <YAxis />
