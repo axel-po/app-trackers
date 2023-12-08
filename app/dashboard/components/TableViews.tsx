@@ -10,6 +10,7 @@ import {
 import { formatDate } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Day } from "@/types/day";
+import { Link } from "lucide-react";
 
 interface TableViewsProps {
    days: Day[];
@@ -28,6 +29,8 @@ const TableViews = ({ days }: TableViewsProps) => {
                </TableHead>
                <TableHead className=" w-[100px]">Sport</TableHead>
                <TableHead className=" w-[100px]">Social</TableHead>
+               <TableHead>Modifier</TableHead>
+               <TableHead>Supprimer</TableHead>
             </TableRow>
          </TableHeader>
          <TableBody>
@@ -47,6 +50,12 @@ const TableViews = ({ days }: TableViewsProps) => {
                      </TableCell>
                      <TableCell>
                         <Checkbox id="terms" />
+                     </TableCell>
+                     <TableCell>
+                        <button>Modifier</button>
+                     </TableCell>
+                     <TableCell>
+                        <button>Supprimer</button>
                      </TableCell>
                   </TableRow>
                ))}
